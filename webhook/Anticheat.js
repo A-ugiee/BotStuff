@@ -20,7 +20,7 @@ function ValidateFlag(Body){
 
     if(!Body || typeof Body !== "object") return "Body must be a JSON object";
     if(!IsString(Body.PlayerName)) return "PlayerName must be a string";
-    if(!IsNumber(Body.UserId)) return "UserId must be a number";
+    if(!IsNumber(Body.UserID)) return "UserId must be a number";
     if(!IsString(Body.CheckName)) return "CheckName must be a string";
     if(!IsString(Body.Reason)) return "Reason must be a string";
     if(!IsNumber(Body.Score)) return "Score must be a number";
