@@ -2,8 +2,12 @@ import { Client, GatewayIntentBits, Collection } from "discord.js";
 import { LoadCommands } from "./functions/CommandHandler.js";
 import { LoadEvents } from "./functions/EventHandler.js";
 import { RefreshCommands } from "./functions/RefreshCommands.js";
+import { GetDatabase } from "./functions/Database.js";
 import dotenv from "dotenv";
 dotenv.config();
+
+// open the flag database now so a bad path or missing volume shows up at startup
+GetDatabase();
 
 const DiscordClient = new Client({intents: [GatewayIntentBits.Guilds]});
 DiscordClient.Commands = new Collection();

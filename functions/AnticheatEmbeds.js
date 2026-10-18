@@ -40,8 +40,8 @@ function ParseColor(Color){
 
 /**
  * Embed for a flag sent by the game's anticheat.
- * Expected data: PlayerName, UserId, CheckName, Reason, Score,
- * and optionally Weight, KickThreshold, JobId, PlaceId.
+ * Expected data: PlayerName, UserID, CheckName, Reason, Score,
+ * and optionally Weight, KickThreshold, JobID, PlaceID.
  */
 
 export function BuildFlagEmbed(Data){
@@ -62,21 +62,21 @@ export function BuildFlagEmbed(Data){
         .addFields(
             {
                 name: "Player",
-                value: Clamp(`[${escapeMarkdown(Data.PlayerName)}](https://www.roblox.com/users/${Data.UserId}/profile) (${Data.UserId})`, 1024),
+                value: Clamp(`[${escapeMarkdown(Data.PlayerName)}](https://www.roblox.com/users/${Data.UserID}/profile) (${Data.UserID})`, 1024),
                 inline: true
             },
             { name: "Check", value: Clamp(Data.CheckName, 1024), inline: true },
             { name: "Score", value: ScoreText, inline: true },
-            { name: "Server", value: Clamp(Data.JobId || "Studio", 1024) },
+            { name: "Server", value: Clamp(Data.JobID || "Studio", 1024) },
         )
-        .setFooter({ text: `Place ${Data.PlaceId ?? "unknown"}` })
+        .setFooter({ text: `Place ${Data.PlaceID ?? "unknown"}` })
         .setTimestamp();
 }
 
 /**
  * Fully customizable embed. Every field is optional:
  * Title, Description, Color (number or "#RRGGBB"), Fields [{Name, Value, Inline}],
- * FooterText, ThumbnailUrl, ImageUrl, Timestamp (boolean).
+ * FooterText, ThumbnailURL, ImageURL, Timestamp (boolean).
  */
 
 export function BuildCustomEmbed(Data){
@@ -102,8 +102,8 @@ export function BuildCustomEmbed(Data){
     }
 
     if(Data.FooterText) Embed.setFooter({ text: Clamp(Data.FooterText, 2048) });
-    if(IsHttps(Data.ThumbnailUrl)) Embed.setThumbnail(Data.ThumbnailUrl);
-    if(IsHttps(Data.ImageUrl)) Embed.setImage(Data.ImageUrl);
+    if(IsHttps(Data.ThumbnailURL)) Embed.setThumbnail(Data.ThumbnailURL);
+    if(IsHttps(Data.ImageURL)) Embed.setImage(Data.ImageURL);
     if(Data.Timestamp === true) Embed.setTimestamp();
 
     return Embed;

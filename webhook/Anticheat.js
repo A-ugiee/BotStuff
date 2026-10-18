@@ -2,6 +2,7 @@ import express from "express";
 import { RequireSecret } from "./Auth.js";
 import { BuildFlagEmbed, BuildCustomEmbed } from "../functions/AnticheatEmbeds.js";
 import { SendToChannel } from "../functions/SendToChannel.js";
+import { InsertFlag } from "../functions/Database.js";
 
 function IsString(Value){
 
@@ -20,12 +21,14 @@ function ValidateFlag(Body){
 
     if(!Body || typeof Body !== "object") return "Body must be a JSON object";
     if(!IsString(Body.PlayerName)) return "PlayerName must be a string";
-    if(!IsNumber(Body.UserID)) return "UserId must be a number";
+    if(!IsNumber(Body.UserID)) return "UserID must be a number";
     if(!IsString(Body.CheckName)) return "CheckName must be a string";
     if(!IsString(Body.Reason)) return "Reason must be a string";
     if(!IsNumber(Body.Score)) return "Score must be a number";
     if(Body.Weight !== undefined && !IsNumber(Body.Weight)) return "Weight must be a number";
     if(Body.KickThreshold !== undefined && (!IsNumber(Body.KickThreshold) || Body.KickThreshold <= 0)) return "KickThreshold must be a positive number";
+    if(Body.JobID !== undefined && typeof Body.JobID !== "string") return "JobID must be a string";
+    if(Body.PlaceID !== undefined && !IsNumber(Body.PlaceID)) return "PlaceID must be a number";
 
     return null;
 }
@@ -62,17 +65,34 @@ export function CreateAnticheatRouter(DiscordClient){
 
         }
 
+        // the database is the record, the Discord post is just the notification, so each can fail on its own
+        let Stored = false;
+        let Sent = false;
+
+        try {
+
+            InsertFlag(Request.body);
+            Stored = true;
+
+        } catch (ErrorObject) {
+
+            console.log("Failed to store anticheat flag:", ErrorObject);
+
+        }
+
         try {
 
             await SendToChannel(DiscordClient, process.env.anticheatChannelID, {embeds: [BuildFlagEmbed(Request.body)]});
-            Response.sendStatus(200);
+            Sent = true;
 
         } catch (ErrorObject) {
 
             console.log("Failed to send anticheat flag:", ErrorObject);
-            Response.sendStatus(502);
 
         }
+
+        // only report failure when nothing worked, otherwise the game would retry and store the flag twice
+        Response.sendStatus(Stored || Sent ? 200 : 502);
     });
 
     Router.post("/embed", async (Request, Response) => {
