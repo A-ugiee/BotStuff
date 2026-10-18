@@ -8,7 +8,6 @@ const Colors = {
 
 const DefaultKickThreshold = 10;
 
-// Discord rejects empty strings and over-length values, so clamp everything
 function Clamp(Value, MaxLength){
 
     const Text = String(Value ?? "");
@@ -38,12 +37,6 @@ function ParseColor(Color){
     return 0x000000;
 }
 
-/**
- * Embed for a flag sent by the game's anticheat.
- * Expected data: PlayerName, UserID, CheckName, Reason, Score,
- * and optionally Weight, KickThreshold, JobID, PlaceID.
- */
-
 export function BuildFlagEmbed(Data){
 
     const Threshold = Data.KickThreshold ?? DefaultKickThreshold;
@@ -72,12 +65,6 @@ export function BuildFlagEmbed(Data){
         .setFooter({ text: `Place ${Data.PlaceID ?? "unknown"}` })
         .setTimestamp();
 }
-
-/**
- * Fully customizable embed. Every field is optional:
- * Title, Description, Color (number or "#RRGGBB"), Fields [{Name, Value, Inline}],
- * FooterText, ThumbnailURL, ImageURL, Timestamp (boolean).
- */
 
 export function BuildCustomEmbed(Data){
 

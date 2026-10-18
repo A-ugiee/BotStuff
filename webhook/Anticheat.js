@@ -16,7 +16,6 @@ function IsNumber(Value){
 
 }
 
-// returns an error message, or null when the body is valid
 function ValidateFlag(Body){
 
     if(!Body || typeof Body !== "object") return "Body must be a JSON object";
@@ -43,11 +42,6 @@ function ValidateCustomEmbed(Body){
     return null;
 }
 
-/**
- * Routes the game calls to post into Discord. Every route needs the
- * x-webhook-secret header. Posts go to the channel in the anticheatChannelID env var.
- */
-
 export function CreateAnticheatRouter(DiscordClient){
 
     const Router = express.Router();
@@ -65,7 +59,6 @@ export function CreateAnticheatRouter(DiscordClient){
 
         }
 
-        // the database is the record, the Discord post is just the notification, so each can fail on its own
         let Stored = false;
         let Sent = false;
 
@@ -91,7 +84,6 @@ export function CreateAnticheatRouter(DiscordClient){
 
         }
 
-        // only report failure when nothing worked, otherwise the game would retry and store the flag twice
         Response.sendStatus(Stored || Sent ? 200 : 502);
     });
 

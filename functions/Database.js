@@ -4,7 +4,6 @@ import path from "path";
 
 let Database = null;
 
-// A Railway volume is mounted at RAILWAY_VOLUME_MOUNT_PATH, so the file survives redeploys there
 function ResolveDatabasePath(){
 
     if(process.env.databasePath) return process.env.databasePath;
@@ -65,11 +64,6 @@ function Clamp(Text, MaxLength){
 
 }
 
-/**
- * Stores one flag from the game. Expected data: UserID, PlayerName, CheckName, Reason, Score,
- * and optionally Weight, KickThreshold, JobID, PlaceID.
- */
-
 export function InsertFlag(Data){
 
     return GetDatabase().prepare(`
@@ -88,11 +82,6 @@ export function InsertFlag(Data){
         Date.now()
     );
 }
-
-/**
- * Totals for one player. Returns null when the player has no stored flags.
- * ThresholdHits counts flags where the score reached the kick threshold (10 when the game didn't send one).
- */
 
 export function GetPlayerSummary(UserID){
 
@@ -126,7 +115,6 @@ export function GetPlayerSummary(UserID){
     return {...Summary, TopChecks, LastName: LastName?.PlayerName ?? null};
 }
 
-// Newest first. CheckName is optional.
 export function GetPlayerFlags(UserID, CheckName, Limit){
 
     if(CheckName){
@@ -142,7 +130,6 @@ export function GetPlayerFlags(UserID, CheckName, Limit){
     `).all(UserID, Limit);
 }
 
-// Newest flags across every player
 export function GetLatestFlags(Limit){
 
     return GetDatabase().prepare(`
@@ -150,7 +137,6 @@ export function GetLatestFlags(Limit){
     `).all(Limit);
 }
 
-// Check names that contain the typed text, for command autocomplete
 export function SearchCheckNames(Text){
 
     return GetDatabase().prepare(`

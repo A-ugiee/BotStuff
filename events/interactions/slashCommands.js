@@ -3,11 +3,6 @@ import { ChatInputCommandInteraction, Client, MessageFlags } from "discord.js";
 export const name = "interactionCreate";
 export const once = false;
 
-/**
- * @param {ChatInputCommandInteraction} Interaction
- * @param {Client} DiscordClient
- */
-
 export async function execute(Interaction, DiscordClient){
 
     if(Interaction.isAutocomplete()){

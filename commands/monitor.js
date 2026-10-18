@@ -3,7 +3,6 @@ import { GetPlayerSummary, GetPlayerFlags, GetLatestFlags, SearchCheckNames } fr
 import { GetUserInfo, GetAvatarURL } from "../functions/RobloxApi.js";
 import { BuildPlayerEmbed, BuildLogsEmbed, BuildRecentEmbed } from "../functions/MonitorEmbeds.js";
 
-// only members with this role can use /monitor, set moderatorRoleID in the env to change it
 const ModeratorRoleID = process.env.moderatorRoleID || "1561315326304714884";
 
 const DefaultCount = 10;
@@ -61,14 +60,8 @@ function HasModeratorRole(Interaction){
 
     if(!Roles) return false;
 
-    // a cached member has a role manager, an uncached one has a plain array of role IDs
     return Array.isArray(Roles) ? Roles.includes(ModeratorRoleID) : Roles.cache.has(ModeratorRoleID);
 }
-
-/**
- * @param {ChatInputCommandInteraction} Interaction
- * @param {Client} DiscordClient
- */
 
 export async function execute(Interaction, DiscordClient){
 
@@ -136,7 +129,6 @@ async function HandlePlayer(Interaction){
 
     const UserID = Interaction.options.getInteger("userid");
 
-    // the database read is instant, the two Roblox calls run side by side
     const Summary = GetPlayerSummary(UserID);
     const [UserInfo, AvatarURL] = await Promise.all([GetUserInfo(UserID), GetAvatarURL(UserID)]);
 

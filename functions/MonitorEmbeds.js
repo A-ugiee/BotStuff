@@ -15,7 +15,6 @@ function ProfileURL(UserID){
 
 }
 
-// Discord renders <t:seconds:R> as a relative time in the viewer's timezone
 function Timestamp(Milliseconds, Style = "R"){
 
     return `<t:${Math.floor(Milliseconds / 1000)}:${Style}>`;
@@ -28,7 +27,6 @@ function Shorten(Text, MaxLength){
 
 }
 
-// join lines until the next one would push the description over Discord's limit
 function FitLines(Lines){
 
     const Kept = [];
@@ -45,11 +43,6 @@ function FitLines(Lines){
 
     return Kept.join("\n");
 }
-
-/**
- * Player profile plus flag summary.
- * UserInfo and AvatarURL come from Roblox and can be null, Summary comes from the database and can be null.
- */
 
 export function BuildPlayerEmbed(UserID, UserInfo, AvatarURL, Summary){
 
@@ -101,7 +94,6 @@ export function BuildPlayerEmbed(UserID, UserInfo, AvatarURL, Summary){
     return Embed;
 }
 
-// One player's flags, newest first. CheckName is the filter that was used, or null.
 export function BuildLogsEmbed(UserID, PlayerName, Rows, CheckName){
 
     const Embed = new EmbedBuilder()
@@ -130,7 +122,6 @@ export function BuildLogsEmbed(UserID, PlayerName, Rows, CheckName){
     return Embed;
 }
 
-// Newest flags across all players
 export function BuildRecentEmbed(Rows){
 
     const Embed = new EmbedBuilder()

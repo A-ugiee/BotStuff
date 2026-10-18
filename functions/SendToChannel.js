@@ -1,7 +1,3 @@
-/**
- * Sends a message into a channel by ID. Mentions are disabled so game-controlled
- * text can never ping @everyone or a role.
- */
 
 export async function SendToChannel(DiscordClient, ChannelID, Message){
 
