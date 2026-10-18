@@ -1,36 +1,17 @@
 # BotStuff
 
-A Discord bot that logs a Roblox game's anticheat flags and lets moderators look players up straight from Discord.
+discord bot for the roblox anticheat. game sends flags to the bot, bot posts them in the staff channel and saves them to a database
 
-## How it works
+## how it works
 
-1. The game detects something suspicious and sends the flag to the bot.
-2. The bot posts it in the staff channel and saves it to a database.
-3. Moderators use `/monitor` to pull up a player's Roblox profile and everything the anticheat has recorded for them.
+game flags a player -> bot posts it + saves it -> mods use `/monitor` to check a player's profile and flag history
 
-## Commands
+## commands
 
-`/monitor` is limited to the moderator role, and replies are only visible to whoever ran the command.
+mod role only, replies are only visible to whoever ran it
 
-### `/monitor player <userid>`
+`/monitor player <userid>` roblox profile + flag summary (total flags, last 24h, highest score, kick threshold hits, most tripped checks)
 
-Shows a player's Roblox profile (name, account age, ban status) next to their flag summary: total flags, flags in the last 24 hours, highest score, times they hit the kick threshold, and the checks they trip most.
+`/monitor logs <userid> [check] [count]` recent flags for a player, newest first. check filters by check name, count is up to 25
 
-### `/monitor logs <userid> [check] [count]`
-
-Lists a player's most recent flags, newest first. `check` filters to a single check and autocompletes from checks that have been logged. `count` goes up to 25.
-
-### `/monitor recent [count]`
-
-Lists the latest flags across all players.
-
-## Setup
-
-Copy `.env.example` to `.env`, fill in your own values, then run:
-
-```bash
-npm install
-npm start
-```
-
-Requires Node 22.13 or newer.
+`/monitor recent [count]` latest flags across everyone
